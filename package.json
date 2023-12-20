@@ -1,0 +1,19 @@
+{
+  "name": "cmpn405",
+  "version": "1.0.0",
+  "description": "#### Setup Basic Express Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amr-Shams/CMPN405.git"
+  },
+  "author": "Men Club",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amr-Shams/CMPN405/issues"
+  },
+  "homepage": "https://github.com/Amr-Shams/CMPN405#readme"
+}
