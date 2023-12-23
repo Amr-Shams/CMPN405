@@ -19,7 +19,7 @@ const getallpendingusers = async (req, res) => {
 
 // approve the pending users
 const approveuser = async (req, res) => {
-    const user = await User.UpdateOne({ _id: req.params.id },{"Status":"Approved"});
+    const user = await User.UpdateOne({ _id: req.params.id },{Status:"Approved"});
     if (!user) {
         throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`);
     }
@@ -27,7 +27,7 @@ const approveuser = async (req, res) => {
 }
 
 const deleteuser = async (req, res) => {
-    const user = await User.deleteOne({ _id: req.params.id },{"Status":"Deleted"});
+    const user = await User.deleteOne({ _id: req.params.id },{Status:"Deleted"});
     if (!user) {
         throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`);
     }
