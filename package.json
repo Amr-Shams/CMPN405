@@ -4,7 +4,8 @@
   "description": "#### Setup Basic Express Server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,29 @@
   "bugs": {
     "url": "https://github.com/Amr-Shams/CMPN405/issues"
   },
-  "homepage": "https://github.com/Amr-Shams/CMPN405#readme"
+  "homepage": "https://github.com/Amr-Shams/CMPN405#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "1.4.6",
+    "cores": "^0.8.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express-async-errors": "^3.1.1",
+    "express-handlebars": "^5.3.4",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.2",
+    "hbs": "^4.1.2",
+    "helmet": "^7.1.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^6.0.11",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.2",
+    "passport": "^0.5.0",
+    "validator": "^13.11.0",
+    "xss-clean": "^0.1.4"
+  }
 }

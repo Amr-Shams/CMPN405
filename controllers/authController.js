@@ -12,27 +12,30 @@ const {
 const crypto = require('crypto');
 
 const register = async (req, res) => {
-  const { email, name, password } = req.body;
+  const { email, name, password, gender } = req.body;
 
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
     throw new CustomError.BadRequestError('Email already exists');
   }
 
-  // first registered user is an admin
   const isFirstAccount = (await User.countDocuments({})) === 0;
-  const role = isFirstAccount ? 'admin' : 'user';
+  const role = isFirstAccount ? 'Admin' : 'Fan';
 
   const verificationToken = crypto.randomBytes(40).toString('hex');
+
+  const status = isFirstAccount ? 'Approved' : 'Pending';
 
   const user = await User.create({
     name,
     email,
     password,
     role,
+    gender,
+    status,
     verificationToken,
   });
-  const origin = 'http://localhost:3000';
+  const origin = process.env.NODE_ENV === 'production' ? 'https://www.example.com' : 'http://localhost:3000';
 
   await sendVerificationEmail({
     name: user.name,

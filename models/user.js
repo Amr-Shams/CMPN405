@@ -58,6 +58,18 @@ const userSchema = new mongos.Schema({
         required: true,
         default: []
     },
+    verificationToken: String,
+        isVerified: {
+        type: Boolean,
+        default: false,
+            },
+    verified: Date,
+        passwordToken: {
+        type: String,
+            },
+    passwordTokenExpirationDate: {
+        type: Date,
+            },
 });
 
 // pre save hook to hash the password
