@@ -20,6 +20,7 @@ const connectDB = require('./db/connect');
 //  routers
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
+const adminRouter = require('./routes/adminRoutes');
 
 
 // middleware
@@ -45,6 +46,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/admin', adminRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

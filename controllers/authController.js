@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const Token = require('../models/Token');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');

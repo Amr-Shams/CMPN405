@@ -1,6 +1,5 @@
 env = require('dotenv').config();
 const { StatusCodes } = require('http-status-codes');
-
 module.exports = {
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
