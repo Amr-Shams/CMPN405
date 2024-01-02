@@ -105,6 +105,7 @@ const reserveSeat = async (req, res) => {
 // get the reservation ticket match, seat, stadium name and location, date,team1,team2
 const getReservation = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
+  console.log(user);
   if (!user) {
     throw new CustomError.NotFoundError(`No user with id : ${req.user.userId}`);
   }

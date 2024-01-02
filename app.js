@@ -16,7 +16,21 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 // database
 const connectDB = require('./db/connect');
-
+// swagger docs 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Egyptian League API',
+      version: '1.0.0',
+      description: 'Football API',
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+const specs = swaggerJsdoc(options);
 //  routers
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -45,9 +59,9 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
 
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/match', mathcRouter);
 app.use('/api/v1/team', teamRouter);

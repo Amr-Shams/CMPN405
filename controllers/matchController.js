@@ -60,6 +60,7 @@ const createMatch = async (req, res) => {
 
 // get all the matches
 const getAllMatches = async (req, res) => {
+    // find all matches
     const matches = await Match.find({});
     res.status(StatusCodes.OK).json({ matches });
 };

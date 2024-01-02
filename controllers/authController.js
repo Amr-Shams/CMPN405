@@ -12,7 +12,7 @@ const {
 const crypto = require('crypto');
 
 const register = async (req, res) => {
-  const { email, name, password, gender, userRole } = req.body;
+  const { email, name, password, gender, role } = req.body;
   // check if eamil already exists or the username already exists
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
@@ -24,21 +24,23 @@ const register = async (req, res) => {
   }
  // count the accounts with status not deleted
   const isFirstAccount = await User.countDocuments({ status: { $ne: 'Deleted' } })=== 0;
-  const role = isFirstAccount ? 'Admin' : userRole;
+  let userRole = role || 'Fan';
+  userRole = isFirstAccount ? 'Admin' : userRole;
 
   const verificationToken = crypto.randomBytes(40).toString('hex');
 
   const status = isFirstAccount ? 'Approved' : 'Pending';
 
   const user = await User.create({
-    name,
-    email,
-    password,
-    role,
-    gender,
-    status,
-    verificationToken,
+    name: name,
+    email: email,
+    role: userRole,
+    gender: gender,
+    password: password,
+    status: status,
+    verificationToken: verificationToken,
   });
+
   const origin = 'http://localhost:3000/api/v1/auth';
   await sendVerificationEmail({
     name: user.name,
@@ -165,8 +167,8 @@ const forgotPassword = async (req, res) => {
     .json({ msg: 'Please check your email for reset password link' });
 };
 const resetPassword = async (req, res) => {
-  const { token, email, password } = req.body;
-  if (!token || !email || !password) {
+  const { token, email,password} = req.query;
+  if (!token || !email ) {
     throw new CustomError.BadRequestError('Please provide all values');
   }
   const user = await User.findOne({ email });
