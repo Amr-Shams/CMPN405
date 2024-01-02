@@ -37,6 +37,7 @@ const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 const mathcRouter = require('./routes/matchRoutes');
 const teamRouter = require('./routes/teamRoutes');
+const stadiumRouter = require('./routes/staduimRoute');
 
 
 // middleware
@@ -65,6 +66,7 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/match', mathcRouter);
 app.use('/api/v1/team', teamRouter);
+app.use('/api/v1/stadiums', stadiumRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

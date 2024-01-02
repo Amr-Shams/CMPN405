@@ -61,13 +61,11 @@ const userSchema = new mongos.Schema({
     seat: {
         column: {
             type: Number,
-            required: true,
             min: 1,
             max: 99999
         },
         row: {
             type: Number,
-            required: true,
             min: 1,
             max: 99999
         },

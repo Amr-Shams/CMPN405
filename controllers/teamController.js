@@ -17,7 +17,15 @@ const createTeam = async (req, res) => {
     if (errors.length > 0) {
         return res.status(StatusCodes.BAD_REQUEST).json({ errors });
     }
-  const team = await Team.create({ ...req.body });
+    // get the ids of the players
+    const playersIds = req.body.players.map((player) => player._id);
+    // check if the players exist
+    const players = await Player.find({ _id: { $in: playersIds } });
+    if (players.length !== req.body.players.length) {
+        throw new CustomError.NotFoundError('One or more players do not exist');
+    }
+
+  const team = await Team.create({ ...req.body, players: playersIds });
   res.status(StatusCodes.CREATED).json({ team });
 };
 
@@ -69,6 +77,12 @@ const deleteTeam = async (req, res) => {
   if (!team) {
     throw new CustomError.NotFoundError(`No team with id : ${teamId}`);
   }
+  // remove the team from the players
+  await Player.updateMany(
+    { _id: { $in: team.players } },
+    { $pull: { teams: team._id } }
+  );
+
   res.status(StatusCodes.OK).send();
 };
 
@@ -121,6 +135,12 @@ const removePlayerFromTeam = async (req, res) => {
 
     if (!team) {
       throw new CustomError.NotFoundError(`No team with id : ${teamId}`);
+    }
+    // check if team has 11 players
+    if (team.players.length < 11) {
+      throw new CustomError.BadRequestError(
+        'A team should have at least 11 players'
+      );
     }
     res.status(StatusCodes.OK).json({ team });
   }
