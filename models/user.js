@@ -58,6 +58,14 @@ const userSchema = new mongos.Schema({
     passwordTokenExpirationDate: {
         type: Date,
     },
+    seat: {
+        type: String,
+        default: null,
+    },
+    matches: {
+        type: [mongos.Schema.Types.ObjectId],
+        default: []
+    }
 });
 
 // pre save hook to hash the password

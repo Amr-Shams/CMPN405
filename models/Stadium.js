@@ -24,6 +24,12 @@ const stadiumSchema = new mongos.Schema({
         min: 6,
         max: 255
     },
+    capacity: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 99999
+    },
 })
 
 const Stadium = mongos.model('Stadium', stadiumSchema);

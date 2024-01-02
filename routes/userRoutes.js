@@ -10,6 +10,9 @@ const {
   showCurrentUser,
   updateUser,
   updateUserPassword,
+  reserveSeat,
+  cancelReservation,
+  getReservation
 } = require('../controllers/userController');
 
 router
@@ -19,7 +22,9 @@ router
 router.route('/showMe').get(authenticateUser, showCurrentUser);
 router.route('/updateUser').patch(authenticateUser, updateUser);
 router.route('/updateUserPassword').patch(authenticateUser, updateUserPassword);
-
 router.route('/:id').get(authenticateUser, getSingleUser);
+router.route('/reserveSeat/:matchId').patch(authenticateUser, reserveSeat);
+router.route('/cancelReservation').patch(authenticateUser, cancelReservation);
+router.route('/getReservation').get(authenticateUser, getReservation);
 
 module.exports = router;
