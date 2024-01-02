@@ -18,10 +18,6 @@ const stadiumSchema = new mongos.Schema({
         required: true,
         default: []
     },
-    date:{
-        type: Date,
-        default: Date.now
-    },
     location: {
         type: String,
         required: true,

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const {
@@ -9,7 +10,7 @@ const {
 
 const getAllUsers = async (req, res) => {
   // find all users except the admin
-  const users = await User.find({ role: { $ne: 'Admin' } }).select('-password');
+  const users = await User.find({}).select('-password');
   res.status(StatusCodes.OK).json({ users });
 };
 

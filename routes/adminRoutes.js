@@ -8,7 +8,8 @@ const {
 const {
     getallPendingUsers,
     approveUser,
-    deleteUser
+    deleteUser,
+    deleteAllUsers
 } = require('../controllers/adminController');
 
 router
@@ -17,6 +18,7 @@ router
 
 router.route('/approveUser/:id').patch(authenticateUser,authorizePermissions('admin'), approveUser);
 router.route('/deleteUser/:id').delete(authenticateUser,authorizePermissions('admin'), deleteUser);
+router.route('/deleteAllUsers').delete(authenticateUser,authorizePermissions('admin'), deleteAllUsers);
 
 module.exports = router;
 

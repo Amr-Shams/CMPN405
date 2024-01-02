@@ -12,15 +12,19 @@ const {
 const crypto = require('crypto');
 
 const register = async (req, res) => {
-  const { email, name, password, gender } = req.body;
-
+  const { email, name, password, gender, userRole } = req.body;
+  // check if eamil already exists or the username already exists
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
     throw new CustomError.BadRequestError('Email already exists');
   }
-
-  const isFirstAccount = (await User.countDocuments({})) === 0;
-  const role = isFirstAccount ? 'Admin' : 'Fan';
+  const userNameExist = await User.findOne({ name });
+  if (userNameExist) {
+    throw new CustomError.BadRequestError('Username already exists');
+  }
+ // count the accounts with status not deleted
+  const isFirstAccount = await User.countDocuments({ status: { $ne: 'Deleted' } })=== 0;
+  const role = isFirstAccount ? 'Admin' : userRole;
 
   const verificationToken = crypto.randomBytes(40).toString('hex');
 
@@ -35,29 +39,27 @@ const register = async (req, res) => {
     status,
     verificationToken,
   });
-  const origin = process.env.NODE_ENV === 'production' ? 'https://www.example.com' : 'http://localhost:3000';
-
+  const origin = 'http://localhost:3000/api/v1/auth';
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
     verificationToken: user.verificationToken,
     origin,
   });
-  // send verification token back only while testing in postman!!!
   res.status(StatusCodes.CREATED).json({
     msg: 'Success! Please check your email to verify account',
   });
 };
 
 const verifyEmail = async (req, res) => {
-  const { verificationToken, email } = req.body;
+  const { token, email } = req.query;
   const user = await User.findOne({ email });
-
   if (!user) {
+    console.log('user not found');
     throw new CustomError.UnauthenticatedError('Verification Failed');
   }
 
-  if (user.verificationToken !== verificationToken) {
+  if (user.verificationToken !== token) {
     throw new CustomError.UnauthenticatedError('Verification Failed');
   }
 
@@ -142,7 +144,7 @@ const forgotPassword = async (req, res) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString('hex');
     // send email
-    const origin = 'http://localhost:3000';
+    const origin = 'http://localhost:3000/api/v1/auth';
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,

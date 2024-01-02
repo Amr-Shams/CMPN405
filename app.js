@@ -21,6 +21,8 @@ const connectDB = require('./db/connect');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
+const mathcRouter = require('./routes/matchRoutes');
+const teamRouter = require('./routes/teamRoutes');
 
 
 // middleware
@@ -47,6 +49,8 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/match', mathcRouter);
+app.use('/api/v1/team', teamRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

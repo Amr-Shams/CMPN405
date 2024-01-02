@@ -3,11 +3,6 @@
 const User = require('../models/User');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
-const userStatus = {
-    Pending: 'Pending',
-    Approved: 'Approved',
-    Deleted: 'Deleted',
-};
 
 // get all the appending users
 const getallPendingUsers = async (req, res) => {
@@ -33,9 +28,18 @@ const deleteUser = async (req, res) => {
     }
     res.status(StatusCodes.OK).json({ user });
 }
+const deleteAllUsers = async (req, res) => {
+    // all the users will be deleted even the one that requested to be deleted
+    const user = await User.deleteMany({}, { status: "Deleted" });
+    if (!user) {
+        throw new CustomError.NotFoundError(`No user with id : ${req.params.id}`);
+    }
+    res.status(StatusCodes.OK).json({ user });
+}
 
 module.exports = {
     getallPendingUsers,
     approveUser,
     deleteUser,
+    deleteAllUsers,
 };

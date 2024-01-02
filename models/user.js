@@ -36,40 +36,28 @@ const userSchema = new mongos.Schema({
         min: 6,
         max: 255
     },
-    date:{
-        type: Date,
-        default: Date.now
-    },
     role:{
         type: String,
         required: true,
-        enum: ['Fan', 'Admin', 'Referee'],
         default: 'Fan',
         trim: true,
     },
     status:{
         type: String,
         required: true,
-        enum: ['Approved', 'Pending', 'Rejected'],
-        trim: true,
-    },
-    matches:{
-        type: [mongos.Schema.Types.ObjectId],
-        required: true,
-        default: []
     },
     verificationToken: String,
-        isVerified: {
-        type: Boolean,
-        default: false,
-            },
+    isVerified: {
+    type: Boolean,
+    default: false,
+        },
     verified: Date,
-        passwordToken: {
-        type: String,
-            },
+    passwordToken: {
+    type: String,
+    },
     passwordTokenExpirationDate: {
         type: Date,
-            },
+    },
 });
 
 // pre save hook to hash the password
