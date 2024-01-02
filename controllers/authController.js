@@ -41,7 +41,7 @@ const register = async (req, res) => {
     verificationToken: verificationToken,
   });
 
-  const origin = 'http://localhost:3000/api/v1/auth';
+  const origin = 'http://localhost:'+process.env.PORT+'/api/v1/auth';
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
@@ -146,7 +146,7 @@ const forgotPassword = async (req, res) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString('hex');
     // send email
-    const origin = 'http://localhost:3000/api/v1/auth';
+    const origin = 'http://localhost:'+process.env.PORT+'/api/v1/auth';
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
