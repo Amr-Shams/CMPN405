@@ -59,8 +59,18 @@ const userSchema = new mongos.Schema({
         type: Date,
     },
     seat: {
-        type: String,
-        default: null,
+        column: {
+            type: Number,
+            required: true,
+            min: 1,
+            max: 99999
+        },
+        row: {
+            type: Number,
+            required: true,
+            min: 1,
+            max: 99999
+        },
     },
     matches: {
         type: [mongos.Schema.Types.ObjectId],

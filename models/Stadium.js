@@ -8,10 +8,17 @@ const stadiumSchema = new mongos.Schema({
         min: 6,
         max: 255
     },
-    seats: {
-        type: [[Number]],
+    columnCount:{
+        type: Number,
         required: true,
-        default: []
+        min: 1,
+        max: 99999
+    },
+    rowCount:{
+        type: Number,
+        required: true,
+        min: 1,
+        max: 99999
     },
     matches: {
         type: [mongos.Schema.Types.ObjectId],

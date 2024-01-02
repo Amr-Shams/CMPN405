@@ -81,13 +81,30 @@ const reserveSeat = async (req, res) => {
     );
   }
   // check if the capacity is full
-  if (stadium.capacity === stadium.seats.length) {
+  if (stadium.capacity === stadium.rowCount * stadium.columnCount) {
     throw new CustomError.BadRequestError('Stadium is full');
   }
-  // check if the seat is already reserved
-  if (stadium.seats.includes(seat)) {
-    throw new CustomError.BadRequestError('Seat is already reserved');
+  // check if the seat is valid based on the stadium capacity
+  for (let i = 0; i < stadium.rowCount*stadium.columnCount; i++) {
+    if(seat.column > stadium.columnCount || seat.row > stadium.rowCount){
+      throw new CustomError.BadRequestError('Seat is not valid');
+    }
   }
+  // check if the seat is already reserved
+  // get all fans of the match
+  const fans = match.fans;
+  // loop through the fans
+  for (let i = 0; i < fans.length; i++) {
+    // check if the user is already a fan
+    if (fans[i]._id.equals(user._id)) {
+      throw new CustomError.BadRequestError('Already reserved a seat');
+    }
+    // check if the seat is already reserved
+    if (fans[i].seat.column === seat.column && fans[i].seat.row === seat.row) {
+      throw new CustomError.BadRequestError('Seat is already reserved');
+    }
+  }
+
   // reserve the seat
   user.seat = seat;
   await user.save();
@@ -97,9 +114,6 @@ const reserveSeat = async (req, res) => {
   // add the user to the match fans
   match.fans.push(user);
   await match.save();
-  // add the seat to the stadium seats
-  stadium.seats.push(seat);
-  await stadium.save();
   res.status(StatusCodes.OK).json({ msg: 'Success! Seat reserved.' });
 };
 // get the reservation ticket match, seat, stadium name and location, date,team1,team2
