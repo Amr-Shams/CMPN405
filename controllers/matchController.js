@@ -33,12 +33,17 @@ const createMatch = async (req, res) => {
     if(MatchesTime.includes(time)){
         throw new CustomError.BadRequestError('The time is already taken');
     }
+    // with a proabability of 0.5 for each team one of them will win
+    const winner = Math.random() < 0.5 ? Team.findOne({name:team1}) : Team.findOne({name:team2});
+    let fans = [];
     // create a match
     const match = await Match.create({
         team1,
         team2,
         location,
         date,
+        fans,
+        winner
     });
 
     // add the match to the team matches
